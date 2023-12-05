@@ -1,6 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
-// const usersRouter = require('./routes/userRoutes');
+const usersRouter = require('./routes/userRoutes');
 // const postsRouter = require('./routes/postRoutes');
 // const commentsRouter = require('./routes/commentRoutes');
 // const categoriesRouter = require('./routes/categoryRoutes');
@@ -16,7 +16,7 @@ app.use(express.json());
 
 //* routes
 // users subrouter
-// app.use('/api/v1/users', usersRouter);
+app.use('/api/v1/users', usersRouter);
 // posts subrouter
 // app.use('/api/v1/posts', postsRouter);
 // comments subrouter
