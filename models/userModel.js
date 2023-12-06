@@ -80,9 +80,22 @@ const userSchema = new mongoose.Schema(
 
 //* using mongoose document middleware to hash the password before saving
 userSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) return next();
+
   this.password = await bcrypt.hash(this.password, 12);
   next();
 });
+
+//* defining a instance method to check password
+userSchema.methods.correctPassword = async function (userPassword) {
+  return await bcrypt.compare(userPassword, this.password);
+};
+
+//* defining a instance method to update last login
+userSchema.methods.updateLastLogin = async function () {
+  this.lastLogin = Date.now();
+  await this.save();
+};
 
 //* Define the User model
 const User = mongoose.model('User', userSchema);
