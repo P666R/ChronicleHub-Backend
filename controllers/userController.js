@@ -1,4 +1,5 @@
 const User = require('../models/userModel');
+const generateToken = require('../utils/generateToken');
 
 //* User registration
 exports.register = async (req, res) => {
@@ -51,11 +52,18 @@ exports.login = async (req, res) => {
     //! calling instance method updateLastLogin to update last login
     await user.updateLastLogin();
 
+    //! generate token
+    const token = generateToken(user._id);
+
     res.status(200).json({
       status: 'success',
+      token,
       data: {
         message: 'User logged in successfully',
-        user,
+        _id: user?._id,
+        username: user?.username,
+        email: user?.email,
+        role: user?.role,
       },
     });
   } catch (error) {
