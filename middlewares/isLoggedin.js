@@ -1,10 +1,10 @@
 const JWT = require('jsonwebtoken');
+const asyncHandler = require('express-async-handler');
 const { promisify } = require('util');
 const User = require('../models/userModel');
 const AppError = require('../utils/appError');
-const catchAsync = require('../utils/catchAsync');
 
-const isloggedin = catchAsync(async (req, res, next) => {
+const isloggedin = asyncHandler(async (req, res, next) => {
   //! get token from header
   const token =
     req.headers.authorization && req.headers.authorization.startsWith('Bearer ')

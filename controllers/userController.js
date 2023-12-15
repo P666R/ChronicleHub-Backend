@@ -1,10 +1,10 @@
+const asyncHandler = require('express-async-handler');
 const User = require('../models/userModel');
-const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const generateToken = require('../utils/generateToken');
 
 //* User registration
-exports.register = catchAsync(async (req, res, next) => {
+exports.register = asyncHandler(async (req, res, next) => {
   const { username, email, password } = req.body;
 
   //! register new user
@@ -27,7 +27,7 @@ exports.register = catchAsync(async (req, res, next) => {
 });
 
 //* User login
-exports.login = catchAsync(async (req, res, next) => {
+exports.login = asyncHandler(async (req, res, next) => {
   const { username, password } = req.body;
 
   //! check if username and password are in the request
@@ -63,7 +63,7 @@ exports.login = catchAsync(async (req, res, next) => {
 });
 
 //* User profile
-exports.getProfile = catchAsync(async (req, res, next) => {
+exports.getProfile = asyncHandler(async (req, res, next) => {
   const { _id } = req.user;
   const user = await User.findById(_id);
 

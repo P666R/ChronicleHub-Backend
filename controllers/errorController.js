@@ -1,4 +1,6 @@
+//* Development mode error
 const sendDevError = (err, res) => {
+  //! Send response back with full error details
   res.status(err.statusCode).json({
     status: err.status,
     message: err.message,
@@ -7,6 +9,7 @@ const sendDevError = (err, res) => {
   });
 };
 
+//* Production mode error
 const sendProdError = (err, res) => {
   //! operational, trusted error: send message to client
   if (err.isOperational) {
@@ -16,7 +19,6 @@ const sendProdError = (err, res) => {
     });
   } else {
     //! programming or other unknown error, dont leak to client
-
     //? 1) Log error
     console.error('Production error: ', err);
 
@@ -28,6 +30,7 @@ const sendProdError = (err, res) => {
   }
 };
 
+//* Error handling MW
 module.exports = (err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'Error';
